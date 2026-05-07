@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Specialties Finder</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <h1>Specialties Finder</h1>
+
+    <input type="file" id="csvFile" accept=".csv" />
+
+    <div class="resetSpace">
+      <button type="button" id="resetApp">Reset & Upload New File</button>
+    </div>
+
+    <div class="container">
+      <section class="boxOne">
+        <section class="inputSpecialties">
+          <label>Enter Specialties:</label>
+          <textarea
+            id="specialty"
+            rows="5"
+            cols="50"
+            placeholder="Enter one specialty per line...
+
+Cardiology
+Pediatrics
+E.N.T."
+          ></textarea>
+          <button type="button" id="submitButton">Submit</button>
+        </section>
+        <section class="result">
+          <button type="button" id="findCommon">Find Common Ones</button>
+          <div class="outputContainer">
+            <p class="infoPara"></p>
+            <div class="heading">
+              <h3><u>Common</u> <u>Specialties</u></h3>
+              <button class="copy" id="commonText">Copy</button>
+            </div>
+            <div class="commonSpecialties"></div>
+            <div class="heading">
+              <h3><u>Uncommon</u> <u>Specialties</u></h3>
+              <button class="copy" id="unCommonText">Copy</button>
+            </div>
+            <div class="unCommonSpecialties"></div>
+          </div>
+        </section>
+      </section>
+
+      <section class="boxTwo"><table id="tableData"></table></section>
+    </div>
+
+    <button id="backToTop">
+      <img
+        width="70"
+        height="70"
+        src="https://img.icons8.com/bubbles/100/long-arrow-up.png"
+        alt="long-arrow-up"
+      />
+    </button>
+
+    <script src="script.js"></script>
+  </body>
+</html>

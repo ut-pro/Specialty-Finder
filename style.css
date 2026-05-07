@@ -1,0 +1,142 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  padding: 40px;
+  text-align: center;
+  margin: 0px 10%;
+}
+
+#csvFile {
+  cursor: pointer;
+}
+
+.container {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10%;
+}
+
+.boxOne {
+  width: 40%;
+  display: none;
+  margin-top: 20px;
+  text-align: left;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.boxTwo {
+  width: 60%;
+}
+
+.inputSpecialties {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  border: 2px solid black;
+  border-radius: 10px;
+}
+
+#specialty {
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.result {
+  display: none;
+  margin-left: 0;
+  margin-right: 0;
+  width: 100%;
+  padding: 10px;
+  border: 2px solid black;
+  border-radius: 10px;
+}
+
+.outputContainer {
+  display: none;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.outputContainer div {
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.infoPara {
+  font-style: italic;
+}
+
+.heading {
+  border: none !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+
+.outputContainer h3 {
+  margin-bottom: 5px;
+}
+
+.matchRow {
+  background-color: #c8f7c5;
+  border: 2px dashed white;
+}
+
+button {
+  cursor: pointer;
+  padding: 8px 15px;
+  border: 1px solid black;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.copy {
+  font-size: small;
+  padding: 4px 12px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+.resetSpace {
+  display: flex;
+  justify-content: end;
+}
+
+#resetApp {
+  display: none;
+}
+
+table {
+  margin-top: 20px;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+th {
+  background: #f4f4f4;
+}
+
+#backToTop {
+  position: fixed;
+  bottom: 50px;
+  right: 70px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: none;
+}
