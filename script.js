@@ -12,8 +12,6 @@ const resetApp = document.getElementById("resetApp");
 let data;
 let givenSpecialties;
 
-// console.log(inputSpecialty);
-
 fileInput.addEventListener("change", function (event) {
   const file = event.target.files[0];
 
@@ -238,7 +236,9 @@ findCommon.addEventListener("click", function () {
 });
 
 // reset button
-resetApp.addEventListener("click", function () {
+resetApp.addEventListener("click", reset);
+
+function reset() {
   fileInput.value = "";
   infoPara.innerHTML = "";
   document.getElementById("specialty").value = "";
@@ -256,7 +256,7 @@ resetApp.addEventListener("click", function () {
   document.getElementById("resetApp").style.display = "none";
 
   console.log("Every thing is removed");
-});
+}
 
 // Display Data in Table
 function displayTable(data) {
@@ -307,3 +307,6 @@ window.addEventListener("scroll", () => {
   backToTop.style.display = window.scrollY > 250 ? "block" : "none";
 });
 backToTop.onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
+// clear once reload
+window.onload = reset;
