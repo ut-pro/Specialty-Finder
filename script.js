@@ -31,6 +31,11 @@ fileInput.addEventListener("change", function (event) {
     // console.log(data);
 
     displayTable(data);
+
+    window.scrollBy({
+      top: 250,
+      behavior: "smooth",
+    });
   };
 
   reader.readAsText(file);
@@ -155,10 +160,13 @@ findCommon.addEventListener("click", function () {
     }
   }
 
-  const p = document.createElement("p");
-
-  p.textContent = `There are ${givenSpecialties.count} specialities given and out of them ${commonElements.length} are available in our database and ${unCommonElements.length} are not available.`;
-  infoPara.appendChild(p);
+  infoPara.innerHTML = `
+<span class="found">✓ <span class="foundCount">${commonElements.length}</span> Found</span>
+&nbsp;&nbsp;|&nbsp;&nbsp;
+<span class="missing">✗ <span class="missingCount">${unCommonElements.length}</span> Missing</span>
+&nbsp;&nbsp;|&nbsp;&nbsp;
+Total <span class="totalCount">${givenSpecialties.count}</span>
+`;
 
   const commonOne = document.createElement("p");
   let commonStr = "";
@@ -253,6 +261,7 @@ function reset() {
   data = [];
 
   document.getElementById("csvFile").style.display = "inline-block";
+  document.getElementById("helperText").style.display = "block";
   document.getElementById("resetApp").style.display = "none";
 
   console.log("Every thing is removed");
@@ -262,6 +271,7 @@ function reset() {
 function displayTable(data) {
   boxOne.style.display = "flex";
   document.getElementById("csvFile").style.display = "none";
+  document.getElementById("helperText").style.display = "none";
   document.getElementById("resetApp").style.display = "inline-block";
 
   table.innerHTML = "";
@@ -304,9 +314,9 @@ function displayTable(data) {
 /* Back to top */
 const backToTop = document.getElementById("backToTop");
 window.addEventListener("scroll", () => {
-  backToTop.style.display = window.scrollY > 250 ? "block" : "none";
+  backToTop.style.display = window.scrollY > 350 ? "block" : "none";
 });
-backToTop.onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
+backToTop.onclick = () => window.scrollTo({ top: 120, behavior: "smooth" });
 
 // clear once reload
 window.onload = reset;
