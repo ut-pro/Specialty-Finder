@@ -1,6 +1,7 @@
 const fileInput = document.getElementById("csvFile");
 const table = document.getElementById("tableData");
 const boxOne = document.querySelector(".boxOne");
+const boxTwo = document.querySelector(".boxTwo");
 const submitButton = document.getElementById("submitButton");
 const findCommon = document.getElementById("findCommon");
 const outputContainer = document.querySelector(".outputContainer");
@@ -36,10 +37,35 @@ fileInput.addEventListener("change", function (event) {
       top: 250,
       behavior: "smooth",
     });
+
+    slowScrollTo(250, 800);
   };
 
   reader.readAsText(file);
 });
+
+// smooth scrolling function
+function slowScrollTo(target, duration = 2000) {
+  const startPosition = window.scrollY;
+  let targetPosition = target - startPosition;
+  let startTime = null;
+
+  // Simple linear animation function
+  function animation(currentTime) {
+    if (startTime === null) startTime = currentTime;
+    const timeElapsed = currentTime - startTime;
+
+    // Calculate progress (0 to 1)
+    const progress = Math.min(timeElapsed / duration, 1);
+
+    // Calculate position based on linear progress
+    const run = startPosition + targetPosition * progress;
+
+    window.scrollTo(0, run);
+    if (timeElapsed < duration) requestAnimationFrame(animation);
+  }
+  requestAnimationFrame(animation);
+}
 
 // Convert CSV → JS Objects
 function csvToObjects(csvText) {
@@ -251,6 +277,7 @@ function reset() {
   infoPara.innerHTML = "";
   document.getElementById("specialty").value = "";
   boxOne.style.display = "none";
+  boxTwo.style.display = "none";
   outputContainer.style.display = "none";
   submitButton.style.display = "block";
   findCommon.style.display = "block";
@@ -270,6 +297,7 @@ function reset() {
 // Display Data in Table
 function displayTable(data) {
   boxOne.style.display = "flex";
+  boxTwo.style.display = "block";
   document.getElementById("csvFile").style.display = "none";
   document.getElementById("helperText").style.display = "none";
   document.getElementById("resetApp").style.display = "inline-block";
@@ -316,7 +344,7 @@ const backToTop = document.getElementById("backToTop");
 window.addEventListener("scroll", () => {
   backToTop.style.display = window.scrollY > 350 ? "block" : "none";
 });
-backToTop.onclick = () => window.scrollTo({ top: 120, behavior: "smooth" });
+backToTop.onclick = () => slowScrollTo(50, 1000);
 
 // clear once reload
 window.onload = reset;
