@@ -63,6 +63,7 @@ body {
 }
 
 .boxTwo {
+  display: none;
   width: 60%;
 }
 
@@ -233,14 +234,6 @@ tr:nth-child(even) {
   font-weight: bold;
 }
 
-/* .commonSpecialties:hover {
-  border: 5px solid #2e7d32 !important;
-}
-
-.unCommonSpecialties:hover {
-  border: 5px solid #c62828 !important;
-} */
-
 #backToTop {
   position: fixed;
   bottom: 40px;
@@ -296,4 +289,141 @@ tr:nth-child(even) {
     display: block;
     overflow-x: auto;
   }
+}
+
+.searchHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.searchHeader span {
+  font-weight: bold;
+}
+
+.searchContainer {
+  position: relative;
+  width: 260px;
+}
+
+#tableSearch {
+  width: 100%;
+  padding: 8px 12px;
+  border: 2px solid #412d15;
+  border-radius: 8px;
+  outline: none;
+  font-size: 14px;
+  background: white;
+  color: #1f150c;
+}
+
+#tableSearch:focus {
+  box-shadow: 0 0 6px rgba(65, 45, 21, 0.25);
+}
+
+.searchResults {
+  display: none;
+
+  position: absolute;
+  top: 105%;
+  left: 0;
+
+  width: 100%;
+
+  background: white;
+  color: #1f150c;
+
+  border: 1px solid #d8d2c0;
+  border-radius: 10px;
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+
+  max-height: 240px;
+
+  overflow-y: auto;
+
+  z-index: 1000;
+}
+
+.searchItem {
+  padding: 10px 15px;
+
+  cursor: pointer;
+
+  border-bottom: 1px solid #efefef;
+
+  transition: 0.2s;
+}
+
+.searchItem:hover {
+  background: #e1dcc9;
+
+  color: #1f150c;
+}
+
+.searchItem:last-child {
+  border-bottom: none;
+}
+
+/* search scrollbar */
+.searchResults::-webkit-scrollbar {
+  width: 8px;
+}
+
+.searchResults::-webkit-scrollbar-thumb {
+  background: #412d15;
+
+  border-radius: 20px;
+}
+
+.searchResults::-webkit-scrollbar-track {
+  background: #f4f4f4;
+}
+
+/* flash search */
+.flashSearch {
+  animation: flashSearch 1.2s ease-in-out;
+}
+
+@keyframes flashSearch {
+  0% {
+    background: transparent;
+  }
+
+  15% {
+    background: #e1dcc9;
+  }
+
+  30% {
+    background: transparent;
+  }
+
+  45% {
+    background: #e1dcc9;
+  }
+
+  60% {
+    background: transparent;
+  }
+
+  75% {
+    background: #e1dcc9;
+  }
+
+  100% {
+    background: transparent;
+  }
+}
+
+.matchedText {
+  background: #e1dcc9;
+
+  color: #412d15;
+
+  font-weight: 700;
+
+  padding: 1px 3px;
+
+  border-radius: 4px;
 }

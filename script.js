@@ -10,8 +10,10 @@ const commonSpecialties = document.querySelector(".commonSpecialties");
 const unCommonSpecialties = document.querySelector(".unCommonSpecialties");
 const resetApp = document.getElementById("resetApp");
 
+let searchTimeout;
 let data;
 let givenSpecialties;
+let onlySpecialties = [];
 
 fileInput.addEventListener("change", function (event) {
   const file = event.target.files[0];
@@ -29,14 +31,18 @@ fileInput.addEventListener("change", function (event) {
 
     data = csvToObjects(csvText);
 
-    // console.log(data);
+    console.log(data);
+
+    onlySpecialties = data.map((row, index) => ({
+      specialty: row.Specialty,
+      rowIndex: index,
+    }));
+
+    console.log(onlySpecialties);
 
     displayTable(data);
 
-    window.scrollBy({
-      top: 250,
-      behavior: "smooth",
-    });
+    initializeSearch();
 
     slowScrollTo(250, 800);
   };
@@ -315,7 +321,30 @@ function displayTable(data) {
 
   headers.forEach((header) => {
     const th = document.createElement("th");
-    th.textContent = header;
+    if (header === "Specialty") {
+      th.innerHTML = `
+            <div class="searchHeader">
+
+                <span>${header.toUpperCase()}</span>
+
+                <div class="searchContainer">
+
+                    <input
+                        type="text"
+                        id="tableSearch"
+                        placeholder="🔍 Search specialty..."
+                        autocomplete="off"
+                    >
+
+                    <div class="searchResults"></div>
+
+                </div>
+
+            </div>
+        `;
+    } else {
+      th.textContent = header.toUpperCase();
+    }
     headRow.appendChild(th);
   });
 
@@ -324,12 +353,17 @@ function displayTable(data) {
 
   const tbody = document.createElement("tbody");
 
-  data.forEach((row) => {
+  data.forEach((row, index) => {
     const tr = document.createElement("tr");
+
+    tr.dataset.rowIndex = index;
 
     headers.forEach((header) => {
       const td = document.createElement("td");
       td.textContent = row[header];
+      if (header === "Specialty") {
+        td.classList.add("specialtyCell");
+      }
       tr.appendChild(td);
     });
 
@@ -339,12 +373,168 @@ function displayTable(data) {
   table.appendChild(tbody);
 }
 
+// funcitons for search specialties feature
+function initializeSearch() {
+  const searchBox = document.getElementById("tableSearch");
+
+  searchBox.addEventListener("input", handleSearchInput);
+
+  searchBox.addEventListener("focus", showSearchResults);
+
+  document.addEventListener("click", hideSearchResults);
+}
+
+function handleSearchInput(event) {
+  const keyword = event.target.value.trim();
+
+  // If input is empty, hide dropdown immediately
+  if (keyword === "") {
+    clearTimeout(searchTimeout);
+
+    renderSearchResults([]);
+
+    return;
+  }
+
+  clearTimeout(searchTimeout);
+
+  searchTimeout = setTimeout(() => {
+    const matches = performSearch(keyword);
+
+    renderSearchResults(matches);
+  }, 1500);
+}
+
+function scrollToMatchedRow(rowIndex) {
+  const row = document.querySelector(`tr[data-row-index="${rowIndex}"]`);
+
+  if (!row) return;
+
+  row.scrollIntoView({
+    behavior: "smooth",
+    block: "center",
+  });
+
+  const specialtyCell = row.querySelector(".specialtyCell");
+
+  specialtyCell.classList.add("flashSearch");
+
+  specialtyCell.addEventListener(
+    "animationend",
+    function () {
+      specialtyCell.classList.remove("flashSearch");
+    },
+    { once: true },
+  );
+}
+
+function performSearch(keyword) {
+  if (keyword === "") {
+    return [];
+  }
+
+  const uniqueSpecialties = new Set();
+
+  return onlySpecialties.filter((item) => {
+    const isMatch = item.specialty
+      .toLowerCase()
+      .includes(keyword.toLowerCase());
+
+    if (!isMatch || uniqueSpecialties.has(item.specialty)) {
+      return false;
+    }
+
+    uniqueSpecialties.add(item.specialty);
+    return true;
+  });
+}
+
+function highlightMatch(text, keyword) {
+  if (keyword === "") {
+    return text;
+  }
+
+  const regex = new RegExp(`(${keyword})`, "gi");
+
+  return text.replace(regex, `<span class="matchedText">$1</span>`);
+}
+
+function renderSearchResults(matches) {
+  const searchResults = document.querySelector(".searchResults");
+
+  searchResults.style.display = "none";
+
+  searchResults.innerHTML = "";
+
+  if (matches.length === 0) {
+    return;
+  }
+
+  searchResults.style.display = "block";
+
+  matches.forEach((match) => {
+    const div = document.createElement("div");
+
+    div.innerHTML = highlightMatch(
+      match.specialty,
+      document.getElementById("tableSearch").value.trim(),
+    );
+
+    div.classList.add("searchItem");
+
+    div.dataset.rowIndex = match.rowIndex;
+    div.dataset.specialty = match.specialty;
+
+    div.addEventListener("click", handleSearchSelection);
+
+    searchResults.appendChild(div);
+  });
+}
+
+function handleSearchSelection(event) {
+  const searchBox = document.getElementById("tableSearch");
+
+  const searchResults = document.querySelector(".searchResults");
+
+  searchBox.value = event.target.dataset.specialty;
+
+  searchResults.style.display = "none";
+
+  const rowIndex = event.target.dataset.rowIndex;
+
+  scrollToMatchedRow(rowIndex);
+}
+
+function hideSearchResults(event) {
+  const searchContainer = document.querySelector(".searchContainer");
+
+  const searchResults = document.querySelector(".searchResults");
+
+  if (!searchContainer.contains(event.target)) {
+    searchResults.style.display = "none";
+  }
+}
+
+function showSearchResults() {
+  const searchBox = document.getElementById("tableSearch");
+
+  const keyword = searchBox.value.trim();
+
+  if (keyword === "") {
+    return;
+  }
+
+  const matches = performSearch(keyword);
+
+  renderSearchResults(matches);
+}
+
 /* Back to top */
 const backToTop = document.getElementById("backToTop");
 window.addEventListener("scroll", () => {
   backToTop.style.display = window.scrollY > 350 ? "block" : "none";
 });
-backToTop.onclick = () => slowScrollTo(50, 1000);
+backToTop.onclick = () => slowScrollTo(50, 500);
 
 // clear once reload
 window.onload = reset;
