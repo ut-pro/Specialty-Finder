@@ -391,7 +391,7 @@ function handleSearchInput(event) {
   if (keyword === "") {
     clearTimeout(searchTimeout);
 
-    renderSearchResults([]);
+    renderSearchResults([], keyword);
 
     return;
   }
@@ -401,8 +401,8 @@ function handleSearchInput(event) {
   searchTimeout = setTimeout(() => {
     const matches = performSearch(keyword);
 
-    renderSearchResults(matches);
-  }, 1500);
+    renderSearchResults(matches, keyword);
+  }, 1000);
 }
 
 function scrollToMatchedRow(rowIndex) {
@@ -415,7 +415,28 @@ function scrollToMatchedRow(rowIndex) {
     block: "center",
   });
 
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const entry = entries[0];
+
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.8) {
+        flashSpecialtyCell(row);
+
+        observer.disconnect();
+      }
+    },
+    {
+      threshold: 0.8,
+    },
+  );
+
+  observer.observe(row);
+}
+
+function flashSpecialtyCell(row) {
   const specialtyCell = row.querySelector(".specialtyCell");
+
+  if (!specialtyCell) return;
 
   specialtyCell.classList.add("flashSearch");
 
@@ -459,14 +480,28 @@ function highlightMatch(text, keyword) {
   return text.replace(regex, `<span class="matchedText">$1</span>`);
 }
 
-function renderSearchResults(matches) {
+function renderSearchResults(matches, keyword) {
   const searchResults = document.querySelector(".searchResults");
-
-  searchResults.style.display = "none";
 
   searchResults.innerHTML = "";
 
+  if (keyword === "") {
+    searchResults.style.display = "none";
+
+    searchResults.innerHTML = "";
+
+    return;
+  }
+
   if (matches.length === 0) {
+    searchResults.style.display = "block";
+
+    searchResults.innerHTML = `
+      <div class="noResults">
+          No matching specialties found.
+      </div>
+    `;
+
     return;
   }
 
@@ -496,11 +531,13 @@ function handleSearchSelection(event) {
 
   const searchResults = document.querySelector(".searchResults");
 
-  searchBox.value = event.target.dataset.specialty;
+  const item = event.target.closest(".searchItem");
+
+  searchBox.value = item.dataset.specialty;
 
   searchResults.style.display = "none";
 
-  const rowIndex = event.target.dataset.rowIndex;
+  const rowIndex = item.dataset.rowIndex;
 
   scrollToMatchedRow(rowIndex);
 }
@@ -526,7 +563,7 @@ function showSearchResults() {
 
   const matches = performSearch(keyword);
 
-  renderSearchResults(matches);
+  renderSearchResults(matches, keyword);
 }
 
 /* Back to top */

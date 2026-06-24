@@ -329,7 +329,7 @@ tr:nth-child(even) {
   top: 105%;
   left: 0;
 
-  width: 100%;
+  width: auto;
 
   background: white;
   color: #1f150c;
@@ -368,7 +368,7 @@ tr:nth-child(even) {
 
 /* search scrollbar */
 .searchResults::-webkit-scrollbar {
-  width: 8px;
+  width: 5px;
 }
 
 .searchResults::-webkit-scrollbar-thumb {
@@ -423,7 +423,25 @@ tr:nth-child(even) {
 
   font-weight: 700;
 
-  padding: 1px 3px;
+  padding: 1px 0px;
 
   border-radius: 4px;
+}
+
+.noResults {
+  padding: 16px;
+
+  text-align: center;
+
+  color: #6a5945;
+
+  font-size: 14px;
+
+  font-style: italic;
+
+  font-weight: 500;
+
+  cursor: default;
+
+  user-select: none;
 }
