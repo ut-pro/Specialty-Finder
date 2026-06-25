@@ -376,11 +376,8 @@ function displayTable(data) {
 // funcitons for search specialties feature
 function initializeSearch() {
   const searchBox = document.getElementById("tableSearch");
-
   searchBox.addEventListener("input", handleSearchInput);
-
   searchBox.addEventListener("focus", showSearchResults);
-
   document.addEventListener("click", hideSearchResults);
 }
 
@@ -390,9 +387,7 @@ function handleSearchInput(event) {
   // If input is empty, hide dropdown immediately
   if (keyword === "") {
     clearTimeout(searchTimeout);
-
     renderSearchResults([], keyword);
-
     return;
   }
 
@@ -400,7 +395,6 @@ function handleSearchInput(event) {
 
   searchTimeout = setTimeout(() => {
     const matches = performSearch(keyword);
-
     renderSearchResults(matches, keyword);
   }, 1000);
 }
@@ -418,10 +412,8 @@ function scrollToMatchedRow(rowIndex) {
   const observer = new IntersectionObserver(
     (entries) => {
       const entry = entries[0];
-
       if (entry.isIntersecting && entry.intersectionRatio >= 0.8) {
         flashSpecialtyCell(row);
-
         observer.disconnect();
       }
     },
@@ -487,21 +479,17 @@ function renderSearchResults(matches, keyword) {
 
   if (keyword === "") {
     searchResults.style.display = "none";
-
     searchResults.innerHTML = "";
-
     return;
   }
 
   if (matches.length === 0) {
     searchResults.style.display = "block";
-
     searchResults.innerHTML = `
       <div class="noResults">
           No matching specialties found.
       </div>
     `;
-
     return;
   }
 
@@ -532,7 +520,6 @@ function handleSearchSelection(event) {
   const searchResults = document.querySelector(".searchResults");
 
   const item = event.target.closest(".searchItem");
-
   searchBox.value = item.dataset.specialty;
 
   searchResults.style.display = "none";

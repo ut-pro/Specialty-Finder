@@ -234,26 +234,6 @@ tr:nth-child(even) {
   font-weight: bold;
 }
 
-#backToTop {
-  position: fixed;
-  bottom: 40px;
-  right: 40px;
-  background-color: rgba(65, 45, 21, 0.15);
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  display: none;
-  padding: 0;
-}
-
-#backToTop:hover {
-  background-color: rgba(65, 45, 21, 0.25);
-}
-
-#backToTop img {
-  display: block;
-}
-
 @media (max-width: 1024px) {
   body {
     margin: 0 5%;
@@ -324,41 +304,30 @@ tr:nth-child(even) {
 
 .searchResults {
   display: none;
-
   position: absolute;
   top: 105%;
   left: 0;
-
-  width: auto;
-
+  width: 100%;
+  word-break: break-all;
   background: white;
   color: #1f150c;
-
   border: 1px solid #d8d2c0;
   border-radius: 10px;
-
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-
   max-height: 240px;
-
   overflow-y: auto;
-
   z-index: 1000;
 }
 
 .searchItem {
   padding: 10px 15px;
-
   cursor: pointer;
-
   border-bottom: 1px solid #efefef;
-
   transition: 0.2s;
 }
 
 .searchItem:hover {
   background: #e1dcc9;
-
   color: #1f150c;
 }
 
@@ -373,7 +342,6 @@ tr:nth-child(even) {
 
 .searchResults::-webkit-scrollbar-thumb {
   background: #412d15;
-
   border-radius: 20px;
 }
 
@@ -418,30 +386,39 @@ tr:nth-child(even) {
 
 .matchedText {
   background: #e1dcc9;
-
   color: #412d15;
-
   font-weight: 700;
-
   padding: 1px 0px;
-
   border-radius: 4px;
 }
 
 .noResults {
   padding: 16px;
-
   text-align: center;
-
   color: #6a5945;
-
   font-size: 14px;
-
   font-style: italic;
-
   font-weight: 500;
-
   cursor: default;
-
   user-select: none;
+}
+
+#backToTop {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  background-color: rgba(65, 45, 21, 0.15);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: none;
+  padding: 0;
+}
+
+#backToTop:hover {
+  background-color: rgba(65, 45, 21, 0.25);
+}
+
+#backToTop img {
+  display: block;
 }
