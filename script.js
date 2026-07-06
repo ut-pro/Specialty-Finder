@@ -127,9 +127,12 @@ function processString(str) {
     .map((l) => l.trim())
     .filter((l) => l !== "");
 
-  const count = lines.length;
+  const uniqueLines = [...new Set(lines)];
 
-  return { count, specialty: lines };
+  return {
+    count: uniqueLines.length,
+    specialty: uniqueLines,
+  };
 }
 
 submitButton.addEventListener("click", function () {
